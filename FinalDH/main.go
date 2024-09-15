@@ -22,6 +22,10 @@ func main() {
     pacienteService := &service.PacienteService{Repo: pacienteRepo}
     pacienteHandler := &handler.PacienteHandler{Service: pacienteService}
 
+    turnoRepo := &repository.TurnoRepository{DB: config.DB}
+	turnoService := &service.TurnoService{Repo: turnoRepo}
+	turnoHandler := &handler.TurnoHandler{Service: turnoService}
+
     r := mux.NewRouter()
 
     // Rutas de Dentista
@@ -39,6 +43,16 @@ func main() {
     r.HandleFunc("/pacientes/{id}", pacienteHandler.UpdatePaciente).Methods("PUT")
     r.HandleFunc("/pacientes/{id}", pacienteHandler.PatchPaciente).Methods("PATCH")
     r.HandleFunc("/pacientes/{id}", pacienteHandler.DeletePaciente).Methods("DELETE")
+
+    // Rutas de Turno
+    r.HandleFunc("/turnos", turnoHandler.GetAllTurnos).Methods("GET")
+	r.HandleFunc("/turnos", turnoHandler.CreateTurno).Methods("POST")
+	r.HandleFunc("/turnos/{id}", turnoHandler.GetTurnoByID).Methods("GET")
+	r.HandleFunc("/turnos/{id}", turnoHandler.UpdateTurno).Methods("PUT")
+	r.HandleFunc("/turnos/{id}", turnoHandler.PatchTurno).Methods("PATCH")
+	r.HandleFunc("/turnos/{id}", turnoHandler.DeleteTurno).Methods("DELETE")
+	r.HandleFunc("/turnos/by-dni-matricula", turnoHandler.CreateTurnoByDNIAndMatricula).Methods("POST")
+	r.HandleFunc("/turnos/by-dni", turnoHandler.GetTurnoByDNI).Methods("GET")
 
     // Middleware de autenticación
     r.Use(middleware.AuthMiddleware)

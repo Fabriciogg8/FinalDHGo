@@ -382,6 +382,246 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/turnos": {
+            "post": {
+                "description": "Adds a new turno to the database",
+                "tags": [
+                    "turnos"
+                ],
+                "summary": "Create a new turno",
+                "parameters": [
+                    {
+                        "description": "Turno data",
+                        "name": "turno",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Turno"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/turnos/by-dni": {
+            "get": {
+                "description": "Retrieves a turno's details by patient's DNI",
+                "tags": [
+                    "turnos"
+                ],
+                "summary": "Get a turno by patient's DNI",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Paciente DNI",
+                        "name": "dni",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/turnos/by-dni-matricula": {
+            "post": {
+                "description": "Adds a new turno to the database using DNI and matricula",
+                "tags": [
+                    "turnos"
+                ],
+                "summary": "Create a new turno by patient's DNI and dentist's matricula",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Paciente DNI",
+                        "name": "dni",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Dentista Matricula",
+                        "name": "matricula",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "description": "Turno data",
+                        "name": "turno",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Turno"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/turnos/{id}": {
+            "get": {
+                "description": "Returns a single turno by their ID",
+                "tags": [
+                    "turnos"
+                ],
+                "summary": "Get a turno by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Turno ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates an existing turno's details by ID",
+                "tags": [
+                    "turnos"
+                ],
+                "summary": "Update a turno by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Turno ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Turno data",
+                        "name": "turno",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Turno"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Removes a turno from the database by their ID",
+                "tags": [
+                    "turnos"
+                ],
+                "summary": "Delete a turno by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Turno ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "patch": {
+                "description": "Updates one or more fields of a turno's information by ID",
+                "tags": [
+                    "turnos"
+                ],
+                "summary": "Partially update a turno by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Turno ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Fields to update",
+                        "name": "fields",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -422,6 +662,26 @@ const docTemplate = `{
                 },
                 "nombre": {
                     "type": "string"
+                }
+            }
+        },
+        "models.Turno": {
+            "type": "object",
+            "properties": {
+                "dentista_id": {
+                    "type": "integer"
+                },
+                "descripcion": {
+                    "type": "string"
+                },
+                "fecha_hora": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "paciente_id": {
+                    "type": "integer"
                 }
             }
         }

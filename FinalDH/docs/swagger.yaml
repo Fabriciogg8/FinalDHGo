@@ -1,3 +1,9 @@
+swagger: "2.0"
+info:
+  description: "API para la gestión de dentistas, pacientes y turnos."
+  version: "1.0.0"
+  title: "API de Gestión Dental"
+
 definitions:
   models.Dentista:
     properties:
@@ -10,6 +16,7 @@ definitions:
       nombre:
         type: string
     type: object
+
   models.Paciente:
     properties:
       apellido:
@@ -20,15 +27,30 @@ definitions:
         type: string
       fecha_alta:
         type: string
+        format: date
       id:
         type: integer
       nombre:
         type: string
     type: object
-info:
-  contact: {}
+
+  models.Turno:
+    properties:
+      id:
+        type: integer
+      fecha_hora:
+        type: string
+        format: date-time
+      descripcion:
+        type: string
+      dentista_id:
+        type: integer
+      paciente_id:
+        type: integer
+    type: object
+
 paths:
-  /dentists:
+  /dentistas:
     get:
       description: Retrieves a list of all dentists
       produces:
@@ -36,6 +58,10 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.Dentista'
         "500":
           description: Internal Server Error
       summary: Get all dentists
@@ -60,7 +86,8 @@ paths:
       summary: Create a new dentist
       tags:
       - dentists
-  /dentists/{id}:
+
+  /dentistas/{id}:
     delete:
       description: Removes a dentist from the database by their ID
       parameters:
@@ -90,6 +117,8 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/models.Dentista'
         "404":
           description: Not Found
         "500":
@@ -150,6 +179,7 @@ paths:
       summary: Update a dentist by ID
       tags:
       - dentists
+
   /pacientes:
     get:
       description: Retrieves a list of all patients
@@ -158,6 +188,10 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.Paciente'
         "500":
           description: Internal Server Error
       summary: Get all patients
@@ -182,6 +216,7 @@ paths:
       summary: Create a new patient
       tags:
       - pacientes
+
   /pacientes/{id}:
     delete:
       description: Removes a patient from the database by their ID
@@ -212,6 +247,8 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/models.Paciente'
         "404":
           description: Not Found
         "500":
@@ -272,4 +309,106 @@ paths:
       summary: Update a patient by ID
       tags:
       - pacientes
-swagger: "2.0"
+
+  /turnos:
+    get:
+      description: Retrieves a list of all turnos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.Turno'
+        "500":
+          description: Internal Server Error
+      summary: Get all turnos
+      tags:
+      - turnos
+    post:
+      description: Adds a new turno to the database
+      parameters:
+      - description: Turno data
+        in: body
+        name: turno
+        required: true
+        schema:
+          $ref: '#/definitions/models.Turno'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create a new turno
+      tags:
+      - turnos
+
+  /turnos/{id}:
+    get:
+      description: Returns a single turno by its ID
+      parameters:
+      - description: Turno ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Turno'
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Get a turno by ID
+      tags:
+      - turnos
+    put:
+      description: Updates an existing turno's details by ID
+      parameters:
+      - description: Turno ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Turno data
+        in: body
+        name: turno
+        required: true
+        schema:
+          $ref: '#/definitions/models.Turno'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Update a turno by ID
+      tags:
+      - turnos
+    delete:
+      description: Removes a turno from the database by its ID
+      parameters:
+      - description: Turno ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Delete a turno by ID
+      tags:
+      - turnos
