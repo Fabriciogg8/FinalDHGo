@@ -1,0 +1,138 @@
+definitions:
+  models.Dentista:
+    properties:
+      apellido:
+        type: string
+      id:
+        type: integer
+      matricula:
+        type: string
+      nombre:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /dentists:
+    get:
+      description: Retrieves a list of all dentists
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Get all dentists
+      tags:
+      - dentists
+    post:
+      description: Adds a new dentist to the database
+      parameters:
+      - description: Dentist data
+        in: body
+        name: dentist
+        required: true
+        schema:
+          $ref: '#/definitions/models.Dentista'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create a new dentist
+      tags:
+      - dentists
+  /dentists/{id}:
+    delete:
+      description: Removes a dentist from the database by their ID
+      parameters:
+      - description: Dentist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Delete a dentist by ID
+      tags:
+      - dentists
+    get:
+      description: Returns a single dentist by their ID
+      parameters:
+      - description: Dentist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Get a dentist by ID
+      tags:
+      - dentists
+    patch:
+      description: Updates one or more fields of a dentist's information by ID
+      parameters:
+      - description: Dentist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Fields to update
+        in: body
+        name: fields
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Partially update a dentist by ID
+      tags:
+      - dentists
+    put:
+      description: Updates an existing dentist's details by ID
+      parameters:
+      - description: Dentist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dentist data
+        in: body
+        name: dentist
+        required: true
+        schema:
+          $ref: '#/definitions/models.Dentista'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Update a dentist by ID
+      tags:
+      - dentists
+swagger: "2.0"
