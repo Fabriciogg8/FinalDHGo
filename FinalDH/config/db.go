@@ -31,6 +31,9 @@ func ConnectDB() {
 		log.Fatalf("Error al conectar con la base de datos: %v", err)
 	}
 
-		DB = db
+	DB = db
 	log.Println("Conexión a la base de datos exitosa")
+
+	// Crear tablas
+	CreateTables()
 }

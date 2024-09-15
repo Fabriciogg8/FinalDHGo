@@ -1,7 +1,7 @@
 package service
 
 import (
-	"FinalDH/models"
+	"FinalDH/model"
 	"FinalDH/repository"
 )
 

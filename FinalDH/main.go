@@ -18,6 +18,10 @@ func main() {
     dentistaService := &service.DentistaService{Repo: dentistaRepo}
     dentistaHandler := &handler.DentistaHandler{Service: dentistaService}
 
+    pacienteRepo := &repository.PacienteRepository{DB: config.DB}
+    pacienteService := &service.PacienteService{Repo: pacienteRepo}
+    pacienteHandler := &handler.PacienteHandler{Service: pacienteService}
+
     r := mux.NewRouter()
 
     // Rutas de Dentista
@@ -27,6 +31,14 @@ func main() {
     r.HandleFunc("/dentistas/{id}", dentistaHandler.UpdateDentista).Methods("PUT")
     r.HandleFunc("/dentistas/{id}", dentistaHandler.PatchDentista).Methods("PATCH")
     r.HandleFunc("/dentistas/{id}", dentistaHandler.DeleteDentista).Methods("DELETE")
+
+    // Rutas de Paciente
+    r.HandleFunc("/pacientes", pacienteHandler.GetAllPacientes).Methods("GET")
+    r.HandleFunc("/pacientes/{id}", pacienteHandler.GetPacienteByID).Methods("GET")
+    r.HandleFunc("/pacientes", pacienteHandler.CreatePaciente).Methods("POST")
+    r.HandleFunc("/pacientes/{id}", pacienteHandler.UpdatePaciente).Methods("PUT")
+    r.HandleFunc("/pacientes/{id}", pacienteHandler.PatchPaciente).Methods("PATCH")
+    r.HandleFunc("/pacientes/{id}", pacienteHandler.DeletePaciente).Methods("DELETE")
 
     // Middleware de autenticación
     r.Use(middleware.AuthMiddleware)

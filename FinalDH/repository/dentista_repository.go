@@ -2,7 +2,7 @@ package repository
 
 import (
 	"database/sql"
-	"FinalDH/models"
+	"FinalDH/model"
 )
 
 // DentistaRepository handles CRUD operations for dentists

@@ -2,7 +2,7 @@ package handler
 
 import (
 	"encoding/json"
-	"FinalDH/models"
+	"FinalDH/model"
 	"FinalDH/service"
 	"net/http"
 	"strconv"

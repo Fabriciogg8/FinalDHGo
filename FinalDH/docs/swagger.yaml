@@ -10,6 +10,21 @@ definitions:
       nombre:
         type: string
     type: object
+  models.Paciente:
+    properties:
+      apellido:
+        type: string
+      dni:
+        type: string
+      domicilio:
+        type: string
+      fecha_alta:
+        type: string
+      id:
+        type: integer
+      nombre:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -135,4 +150,126 @@ paths:
       summary: Update a dentist by ID
       tags:
       - dentists
+  /pacientes:
+    get:
+      description: Retrieves a list of all patients
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Get all patients
+      tags:
+      - pacientes
+    post:
+      description: Adds a new patient to the database
+      parameters:
+      - description: Patient data
+        in: body
+        name: paciente
+        required: true
+        schema:
+          $ref: '#/definitions/models.Paciente'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Create a new patient
+      tags:
+      - pacientes
+  /pacientes/{id}:
+    delete:
+      description: Removes a patient from the database by their ID
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Delete a patient by ID
+      tags:
+      - pacientes
+    get:
+      description: Returns a single patient by their ID
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Get a patient by ID
+      tags:
+      - pacientes
+    patch:
+      description: Updates one or more fields of a patient's information by ID
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Fields to update
+        in: body
+        name: fields
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Partially update a patient by ID
+      tags:
+      - pacientes
+    put:
+      description: Updates an existing patient's details by ID
+      parameters:
+      - description: Patient ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Patient data
+        in: body
+        name: paciente
+        required: true
+        schema:
+          $ref: '#/definitions/models.Paciente'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Update a patient by ID
+      tags:
+      - pacientes
 swagger: "2.0"
